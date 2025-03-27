@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detection</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div id="popup-container">
+        <h1>Phishing Detection</h1>
+        <div>
+            <label for="url-input">Enter URL:</label>
+            <input type="text" id="url-input" placeholder="https://example.com">
+            <button id="check-url">Check URL</button>
+        </div>
+        <div>
+            <label for="email-input">Enter Email:</label>
+            <textarea id="email-input" placeholder="Paste email content here..."></textarea>
+            <button id="check-email">Check Email</button>
+        </div>
+        <div id="result-container">
+            <h2>Results:</h2>
+            <p id="result-message"></p>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
