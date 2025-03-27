@@ -46,6 +46,9 @@ function processEmail() {
             type: 'DETECT_EMAIL',
             emailData: emailData
         });
+        lastEmail = "";
+        lastUrl = "";
+        lastEmailId = "";
     }
 }
 
