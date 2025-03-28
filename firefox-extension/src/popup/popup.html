@@ -9,19 +9,20 @@
 <body>
     <div id="popup-container">
         <h1>Phishing Detection</h1>
+        <h4>You are being protected from the phishing attacks</h4>
         <div>
             <label for="url-input">Enter URL:</label>
             <input type="text" id="url-input" placeholder="https://example.com">
-            <button id="check-url">Check URL</button>
+            <button id="detect-url">Check URL</button>
         </div>
         <div>
             <label for="email-input">Enter Email:</label>
             <textarea id="email-input" placeholder="Paste email content here..."></textarea>
-            <button id="check-email">Check Email</button>
+            <button id="detect-email">Check Email</button>
         </div>
         <div id="result-container">
             <h2>Results:</h2>
-            <p id="result-message"></p>
+            <p id="result-display"></p>
         </div>
     </div>
     <script src="popup.js"></script>
