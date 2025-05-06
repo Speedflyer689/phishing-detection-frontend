@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Reporter</title>
+    <style>
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        body {
+            background-color: var(--background-color);
+            padding: 5rem 2rem 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --danger-color: #dc2626;
+            --success-color: #16a34a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: none;
+        }
+
+        .success {
+            background-color: #dcfce7;
+            color: var(--success-color);
+            display: block;
+        }
+
+        .error {
+            background-color: #fee2e2;
+            color: var(--danger-color);
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTIgMjJzOC02IDgtMTJWNWwtOC0zLTggMyB2NWMwIDYgOCAxMiA4IDEyeiIvPjwvc3ZnPg==" alt="PhishGuard Logo">
+                <span class="logo-text">PhishGuard</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="report-phishing.html">Report Phishing</a>
+                <a href="report-analysis.html">Analysis</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Phishing Reporter</h1>
+        <form id="reportForm">
+            <div class="form-group">
+                <label for="content">URL or Email Address</label>
+                <input type="text" id="content" required placeholder="Enter URL or email address">
+            </div>
+            <div class="form-group">
+                <label for="type">Incident Type</label>
+                <select id="type" required>
+                    <option value="URL">URL</option>
+                    <option value="EMAIL">Email</option>
+                </select>
+            </div>
+            <button type="submit">Report Phishing</button>
+        </form>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('reportForm');
+        const result = document.getElementById('result');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const content = document.getElementById('content').value;
+            const type = document.getElementById('type').value;
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/v1/report/phishing', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content,
+                        incident_type: type
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'SUCCESS') {
+                    result.className = 'result success';
+                    result.innerHTML = `
+                        <h3>Report Submitted Successfully</h3>
+                        <p>Content: ${data.data.content}</p>
+                        <p>Type: ${data.data.type}</p>
+                        <p>Report ID: ${data.data.id}</p>
+                        <p>Reported: ${new Date(data.data.created_at).toLocaleString()}</p>
+                    `;
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                result.className = 'result error';
+                result.innerHTML = `
+                    <h3>Error</h3>
+                    <p>${error.message || 'Something went wrong. Please try again.'}</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

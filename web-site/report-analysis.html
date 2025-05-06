@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Analysis Dashboard</title>
+    <style>
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        body {
+            background-color: var(--background-color);
+            padding: 5rem 2rem 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #4b5563;
+            --background-color: #f3f4f6;
+            --card-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .type-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .content {
+            word-break: break-all;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .details {
+            font-size: 0.875rem;
+            color: var(--secondary-color);
+        }
+
+        .details p {
+            margin-bottom: 0.5rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary-color);
+            background-color: white;
+            color: var(--primary-color);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pagination button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .pagination button:hover:not(.active) {
+            background-color: #e8eeff;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyNTYzZWIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTIgMjJzOC02IDgtMTJWNWwtOC0zLTggMyB2NWMwIDYgOCAxMiA4IDEyeiIvPjwvc3ZnPg==" alt="PhishGuard Logo">
+                <span class="logo-text">PhishGuard</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="report-phishing.html">Report Phishing</a>
+                <a href="report-analysis.html">Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Phishing Analysis Dashboard</h1>
+        
+        <div class="filters">
+            <select id="typeFilter" onchange="loadData(1)">
+                <option value="ALL">All Types</option>
+                <option value="URL">URL</option>
+                <option value="EMAIL">Email</option>
+            </select>
+        </div>
+
+        <div id="grid" class="grid"></div>
+        <div id="pagination" class="pagination"></div>
+    </div>
+
+    <script>
+        const itemsPerPage = 9;
+        let currentItems = [];
+
+        async function fetchData(page = 1) {
+            const type = document.getElementById('typeFilter').value;
+            const typeParam = type === 'ALL' ? '' : `incident_type=${type}`;
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/v1/analysis/phishing?${typeParam}`);
+                const data = await response.json();
+                if (data.status === 'SUCCESS') {
+                    return data.data;
+                }
+                throw new Error(data.message);
+            } catch (error) {
+                console.error('Error:', error);
+                return [];
+            }
+        }
+
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleString();
+        }
+
+        function renderItems(items, currentPage) {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedItems = items.slice(start, end);
+
+            paginatedItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span class="type-badge">${item.type}</span>
+                        <span>Count: ${item.count}</span>
+                    </div>
+                    <div class="content">
+                        ${item.content}
+                    </div>
+                    <div class="details">
+                        <p>ID: ${item.id}</p>
+                        <p>Created: ${formatDate(item.created_at)}</p>
+                        <p>Updated: ${formatDate(item.updated_at)}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            renderPagination(items.length, currentPage);
+        }
+
+        function renderPagination(totalItems, currentPage) {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            let paginationHTML = '';
+            
+            if (currentPage > 1) {
+                paginationHTML += `<button onclick="loadData(${currentPage - 1})">Previous</button>`;
+            }
+
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                    <button class="${i === currentPage ? 'active' : ''}" 
+                            onclick="loadData(${i})">${i}</button>
+                `;
+            }
+
+            if (currentPage < totalPages) {
+                paginationHTML += `<button onclick="loadData(${currentPage + 1})">Next</button>`;
+            }
+
+            pagination.innerHTML = paginationHTML;
+        }
+
+        async function loadData(page = 1) {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '<div class="loading">Loading...</div>';
+
+            const items = await fetchData();
+            currentItems = items;
+            renderItems(items, page);
+        }
+
+        // Initial load
+        loadData(1);
+    </script>
+</body>
+</html>
